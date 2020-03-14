@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<input type="file" id="file" >
+		<input type="text" id="name">
+		<input type="button" id="btn" value="upload" >
+		<img src="#" id="img">
+		<a href="#" download="pic.jpg" id="download">download</a>
+	</body>
+	<script>
+		const btn = document.getElementById('btn');
+		
+		btn.onclick = async function upload(){
+			const file = document.getElementById('file').files[0];
+			const name = document.getElementById('name').value;
+			const img = document.getElementById('img');
+			const download = document.getElementById('download');
+			
+			const form = new FormData();
+			form.append("file",file);
+			form.append("name",name);
+			console.log('fff');
+			const resp = await fetch('/upload',{
+				method : 'post',
+				body : form
+			});
+			const data = await resp.json();
+			img.src = `/getPic?path=${data.path}`;
+			download.href = `/getPic?path=${data.path}`;
+		}
+		
+	</script>
+</html>
